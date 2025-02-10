@@ -16,6 +16,8 @@ import africanSavannaImg from "./assets/african-savanna.jpg";
 import victoriaFallsImg from "./assets/victoria-falls.jpg";
 import machuPicchuImg from "./assets/machu-picchu.jpg";
 import amazonRiverImg from "./assets/amazon-river.jpg";
+import neoRanger from "./assets/DF-neoranger.gif";
+import HeXA from "./assets/HeXA.png";
 
 export interface Place {
   id: string;
@@ -208,5 +210,27 @@ export const AVAILABLE_PLACES: Place[] = [
     },
     lat: -3.4653,
     lon: -58.38,
+  },
+  {
+    // https://maps.app.goo.gl/sSrN58k8Mzbk4U2S9
+    id: "p19",
+    title: "Jeju Island with neople",
+    image: {
+      src: neoRanger,
+      alt: "An awesome character.",
+    },
+    lat: 33.47283,
+    lon: 126.485242,
+  },
+  {
+    // https://maps.app.goo.gl/Aj194FGQrqBU7Zag6
+    id: "p20",
+    title: "HeXA in UNIST",
+    image: {
+      src: HeXA,
+      alt: "A HeXA figure.",
+    },
+    lat: 35.574644,
+    lon: 129.189489,
   },
 ];
