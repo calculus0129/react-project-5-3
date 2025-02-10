@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 // import "./App.css";
 import logoImg from "./assets/logo.png";
 import { AVAILABLE_PLACES, Place } from "./data";
-import Modal, { ResultModalHandle } from "./components/Model";
+import Modal from "./components/Model";
 import DeleteConfirmation from "./components/DeleteConfirmation";
 import Places from "./components/Places";
 import { sortPlacesByDistance } from "./loc";
@@ -12,7 +12,8 @@ import { sortPlacesByDistance } from "./loc";
 console.log("pickedPlaceIds:", localStorage.getItem("pickedPlaceIds"));
 
 function App() {
-  const modal = useRef<ResultModalHandle | null>(null);
+  // const modal = useRef<ResultModalHandle | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const selectedPlace = useRef<string | null>(null);
   // console.log("pickedPlaceIds:", localStorage.getItem("pickedPlaceIds")); // This shows up the early state of the picked places.
   // Why? Because the `localStorage.getItem` is synchronous and the `useState` is asynchronous.
@@ -43,7 +44,7 @@ function App() {
   // as it will cause an infinite loop of re-rendering.
 
   const handleStartRemovePlace = (id: string) => {
-    modal.current?.open();
+    setModalOpen(true);
     selectedPlace.current = id;
   };
 
@@ -66,9 +67,9 @@ function App() {
 
   return (
     <>
-      <Modal ref={modal}>
+      <Modal modalOpen={modalOpen}>
         <DeleteConfirmation
-          onCancel={() => modal.current?.close()}
+          onCancel={() => setModalOpen(false)}
           onConfirm={() => {
             if (selectedPlace.current) {
               setPickedPlaces((places) => {
@@ -80,7 +81,7 @@ function App() {
                 return newPlaces;
               });
             }
-            modal.current?.close();
+            setModalOpen(false);
           }}
         />
       </Modal>
