@@ -7,10 +7,20 @@ import DeleteConfirmation from "./components/DeleteConfirmation";
 import Places from "./components/Places";
 import { sortPlacesByDistance } from "./loc";
 
+// This shows up when the app is loaded. (e.g. when the page is refreshed)
+// When the code is parsed and executed for the first time.
+console.log("pickedPlaceIds:", localStorage.getItem("pickedPlaceIds"));
+
 function App() {
   const modal = useRef<ResultModalHandle | null>(null);
   const selectedPlace = useRef<string | null>(null);
-  const [pickedPlaces, setPickedPlaces] = useState<Place[]>([]);
+  // console.log("pickedPlaceIds:", localStorage.getItem("pickedPlaceIds")); // This shows up the early state of the picked places.
+  // Why? Because the `localStorage.getItem` is synchronous and the `useState` is asynchronous.
+  const [pickedPlaces, setPickedPlaces] = useState<Place[]>(
+    JSON.parse(localStorage.getItem("pickedPlaceIds") || "[]")
+      .map((id: string): Place | undefined => AVAILABLE_PLACES.find((place) => place.id === id))
+      .filter((place: Place | undefined) => place !== undefined),
+  );
   const [sortedAvailablePlaces, setSortedAvailablePlaces] = useState(AVAILABLE_PLACES);
 
   useEffect(() => {
@@ -29,7 +39,8 @@ function App() {
         console.error(error);
       },
     );
-  }, [sortedAvailablePlaces]);
+  }, []); // We should not put the `sortedAvailablePlaces` in the dependency array
+  // as it will cause an infinite loop of re-rendering.
 
   const handleStartRemovePlace = (id: string) => {
     modal.current?.open();
@@ -41,7 +52,12 @@ function App() {
       if (!places.some((place) => place.id === id)) {
         const newPlace = AVAILABLE_PLACES.find((place) => place.id === id);
         if (newPlace) {
-          return [newPlace, ...places];
+          const newPlaces = [...places, newPlace];
+          localStorage.setItem(
+            "pickedPlaceIds",
+            JSON.stringify(newPlaces.map((place) => place.id)),
+          );
+          return newPlaces;
         }
       }
       return places;
@@ -55,9 +71,14 @@ function App() {
           onCancel={() => modal.current?.close()}
           onConfirm={() => {
             if (selectedPlace.current) {
-              setPickedPlaces((places) =>
-                places.filter((place) => place.id !== selectedPlace.current),
-              );
+              setPickedPlaces((places) => {
+                const newPlaces = places.filter((place) => place.id !== selectedPlace.current);
+                localStorage.setItem(
+                  "pickedPlaceIds",
+                  JSON.stringify(newPlaces.map((place) => place.id)),
+                );
+                return newPlaces;
+              });
             }
             modal.current?.close();
           }}
