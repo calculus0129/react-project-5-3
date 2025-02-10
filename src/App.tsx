@@ -1,15 +1,35 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 // import "./App.css";
 import logoImg from "./assets/logo.png";
 import { AVAILABLE_PLACES, Place } from "./data";
 import Modal, { ResultModalHandle } from "./components/Model";
 import DeleteConfirmation from "./components/DeleteConfirmation";
 import Places from "./components/Places";
+import { sortPlacesByDistance } from "./loc";
 
 function App() {
   const modal = useRef<ResultModalHandle | null>(null);
   const selectedPlace = useRef<string | null>(null);
   const [pickedPlaces, setPickedPlaces] = useState<Place[]>([]);
+  const [sortedAvailablePlaces, setSortedAvailablePlaces] = useState(AVAILABLE_PLACES);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position);
+        setSortedAvailablePlaces(
+          sortPlacesByDistance(
+            AVAILABLE_PLACES,
+            position.coords.latitude,
+            position.coords.longitude,
+          ),
+        );
+      },
+      (error) => {
+        console.error(error);
+      },
+    );
+  }, [sortedAvailablePlaces]);
 
   const handleStartRemovePlace = (id: string) => {
     modal.current?.open();
@@ -48,8 +68,7 @@ function App() {
         <img src={logoImg} alt="Stylized globe" />
         <h1>PlacePicker</h1>
         <p>
-          Create your personal collection of places you would like to visit or
-          you have visited.
+          Create your personal collection of places you would like to visit or you have visited.
         </p>
       </header>
       <main>
@@ -61,7 +80,8 @@ function App() {
         />
         <Places
           title="Available Places"
-          places={AVAILABLE_PLACES}
+          fallbackText={"Sorting places by distance ..."}
+          places={sortedAvailablePlaces}
           onSelectPlace={handleSelectPlace}
         />
       </main>
