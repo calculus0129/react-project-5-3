@@ -1,13 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import ProgressBar from "./ProgressBar";
 
 interface DeleteConfirmationProps {
   onConfirm: () => void;
   onCancel: () => void;
 }
 
+const TIMER_INTERVAL = 1000;
+const TIMER_DURATION = 3000;
+
 const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({ onConfirm, onCancel }) => {
   // const timerRef = useRef<number | null>(null);
-  const [countDown, setCountDown] = useState(3);
+  const [countDown, setCountDown] = useState(TIMER_DURATION / TIMER_INTERVAL);
 
   useEffect(() => {
     console.log("INTERVAL SET!");
@@ -19,9 +23,9 @@ const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({ onConfirm, onCa
         clearTimeout(timer);
         onConfirm();
       }
-    }, 1000);
+    }, TIMER_INTERVAL);
     return () => clearTimeout(timer);
-  }, [countDown]);
+  }, [countDown, onConfirm]);
 
   return (
     <div id="delete-confirmation">
@@ -35,6 +39,7 @@ const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({ onConfirm, onCa
           Yes ({countDown})
         </button>
       </div>
+      <ProgressBar duration={TIMER_DURATION} />
     </div>
   );
 };
