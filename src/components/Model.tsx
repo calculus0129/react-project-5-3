@@ -26,7 +26,7 @@ const Modal: React.FC<
 
   return createPortal(
     <dialog className="modal" ref={dialog}>
-      {children}
+      {modalOpen ? children : null}
     </dialog>,
     document.getElementById("modal")!,
   );

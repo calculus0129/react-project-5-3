@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 // import "./App.css";
 import logoImg from "./assets/logo.png";
 import { AVAILABLE_PLACES, Place } from "./data";
@@ -70,7 +70,7 @@ function App() {
       <Modal modalOpen={modalOpen}>
         <DeleteConfirmation
           onCancel={() => setModalOpen(false)}
-          onConfirm={() => {
+          onConfirm={useCallback(() => {
             if (selectedPlace.current) {
               setPickedPlaces((places) => {
                 const newPlaces = places.filter((place) => place.id !== selectedPlace.current);
@@ -82,7 +82,7 @@ function App() {
               });
             }
             setModalOpen(false);
-          }}
+          }, [])}
         />
       </Modal>
 
