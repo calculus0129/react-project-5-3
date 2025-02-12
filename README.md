@@ -60,7 +60,7 @@ The visiting list shows the picked places in the order you picked them.
 
 <!-- https://blog.markdowntools.com/posts/how-to-embed-a-video-in-markdown -->
 
-<video controls src="resources/Feature1.mp4" width="320" height="240" title="Feature 1 Demonstration"></video>
+<video src="resources/Feature1.mp4" width="320" height="240" title="Feature 1 Demonstration" controls></video>
 
 ##### 1.3. Use Cases
 
