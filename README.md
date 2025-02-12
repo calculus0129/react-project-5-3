@@ -58,7 +58,7 @@ If the place is not already added to your list, then the place is added to your 
 
 The visiting list shows the picked places in the order you picked them.
 
-![Demonstration video](resources/Feature1.mp4)
+<video controls src="resources/Feature1.mp4" title="Feature 1 Demonstration"></video>
 
 ##### 1.3. Use Cases
 
