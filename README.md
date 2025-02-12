@@ -60,7 +60,13 @@ The visiting list shows the picked places in the order you picked them.
 
 <!-- https://blog.markdowntools.com/posts/how-to-embed-a-video-in-markdown -->
 
-<video src="resources/Feature1.mp4" width="320" height="240" title="Feature 1 Demonstration" controls></video>
+<!-- https://ffmpeg.org/download.html#repositories -->
+<!-- Just run them on WSL if you are in Windows. Or run them in your Docker. -->
+<!-- sudo apt update && sudo apt install ffmpeg -->
+<!-- ffmpeg -i Feature1.mp4 -vf "fps=30,scale=1280:-1:flags=lanczos" -c:v gif Feature1.gif -->
+<!-- .mp4 to .gif conversion: ffmpeg -i video.mp4 -vf "fps=10,scale=640:-1" -loop 0 demo.gif -->
+
+![Feature 1 Demonstration gif](resources/Feature1.gif)
 
 ##### 1.3. Use Cases
 
@@ -84,7 +90,7 @@ Give the access to your current physical location to the website.
 
 The available places get sorted via the physical location.
 
-<video controls src="resources/Feature2.mp4" width="320" height="240" title="Feature 2 Demonstration"></video>
+![Feature 2 Demonstration gif](resources/Feature2.gif)
 
 ##### 2.3. Use Cases
 
@@ -108,7 +114,9 @@ Click the place in your list that you wish to exclude from your list.
 
 The place is excluded from your favorite list.
 
-<video controls src="resources/Feature3.mp4" width="320" height="240" title="Feature 3 Demonstration"></video>
+<!-- ffmpeg -i Feature3.mp4 -vf "fps=30,scale=1280:-1:flags=lanczos" -c:v gif Feature3.gif -->
+
+![Feature 3 Demonstration gif](resources/Feature3.gif)
 
 ##### 3.3. Use Cases
 
